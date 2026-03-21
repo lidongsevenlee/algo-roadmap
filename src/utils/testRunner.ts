@@ -126,13 +126,18 @@ function __treeToArray(root) {
   while (result.length && result[result.length - 1] === null) result.pop();
   return result;
 }
+function __findNode(root, val) {
+  if (!root) return null;
+  if (root.val === val) return root;
+  return __findNode(root.left, val) || __findNode(root.right, val);
+}
 `
 
-type DataStructureType = 'linked-list' | 'linked-list-cycle' | 'binary-tree' | undefined
+type DataStructureType = 'linked-list' | 'linked-list-cycle' | 'binary-tree' | 'binary-tree-lca' | 'class-ops' | undefined
 
 function getHelperCode(ds: DataStructureType): string {
   if (ds === 'linked-list' || ds === 'linked-list-cycle') return linkedListHelpers
-  if (ds === 'binary-tree') return binaryTreeHelpers
+  if (ds === 'binary-tree' || ds === 'binary-tree-lca') return binaryTreeHelpers
   return ''
 }
 
@@ -153,6 +158,14 @@ function convertInputs(inputs: unknown[], ds: DataStructureType): string {
     }).join(', ')
   }
 
+  if (ds === 'binary-tree-lca') {
+    // inputs: [treeArr, pVal, qVal]
+    const treeArr = JSON.stringify(inputs[0])
+    const pVal = JSON.stringify(inputs[1])
+    const qVal = JSON.stringify(inputs[2])
+    return `(function(){ var __root = __arrayToTree(${treeArr}); return [__root, __findNode(__root, ${pVal}), __findNode(__root, ${qVal})]; })()`
+  }
+
   if (ds === 'binary-tree') {
     return inputs.map((v) => {
       if (Array.isArray(v)) return `__arrayToTree(${JSON.stringify(v)})`
@@ -167,6 +180,13 @@ function convertOutput(result: unknown, _expected: unknown, ds: DataStructureTyp
   if (!ds) return result
   // linked-list-cycle returns boolean, no conversion needed
   if (ds === 'linked-list-cycle') return result
+  // binary-tree-lca returns a TreeNode, extract its val
+  if (ds === 'binary-tree-lca') {
+    if (result && typeof result === 'object' && 'val' in (result as Record<string, unknown>)) {
+      return (result as { val: unknown }).val
+    }
+    return result
+  }
   // null means empty list/tree → return empty array
   if (result === null || result === undefined) {
     if (ds === 'linked-list' || ds === 'binary-tree') return []
@@ -215,13 +235,58 @@ export function runTests(
   const results: TestResult[] = []
   const helperCode = getHelperCode(dataStructure)
 
+  // class-ops: execute a sequence of method calls on a user-defined class
+  if (dataStructure === 'class-ops') {
+    for (let i = 0; i < testCases.length; i++) {
+      const tc = testCases[i]
+      const [ops, args] = tc.input as [string[], unknown[][]]
+      const start = performance.now()
+
+      try {
+        // Build code that instantiates the class and calls methods in sequence
+        const lines: string[] = [code, '']
+        lines.push(`var __instance = new ${ops[0]}(${(args[0] as unknown[]).map(a => JSON.stringify(a)).join(', ')});`)
+        lines.push('var __results = [null];')
+        for (let j = 1; j < ops.length; j++) {
+          const methodArgs = (args[j] as unknown[]).map(a => JSON.stringify(a)).join(', ')
+          lines.push(`__results.push(__instance.${ops[j]}(${methodArgs}) ?? null);`)
+        }
+        lines.push('return __results;')
+        const rawResult = new Function(lines.join('\n'))()
+        const elapsed = performance.now() - start
+        const passed = deepEqual(rawResult, tc.expected)
+
+        results.push({
+          index: i,
+          passed,
+          input: ops.join(', '),
+          expected: JSON.stringify(tc.expected),
+          actual: JSON.stringify(rawResult),
+          time: Math.round(elapsed * 100) / 100,
+        })
+      } catch (err) {
+        const elapsed = performance.now() - start
+        results.push({
+          index: i,
+          passed: false,
+          input: ops.join(', '),
+          expected: JSON.stringify(tc.expected),
+          actual: '',
+          error: `运行错误: ${(err as Error).message}`,
+          time: Math.round(elapsed * 100) / 100,
+        })
+      }
+    }
+    return results
+  }
+
   // For data structure problems, we wrap differently to inject helpers and convert I/O
   if (dataStructure) {
-    let wrappedModule: { fn: (...args: unknown[]) => unknown }
+    // Validate function exists first
     try {
-      const wrapped = `${helperCode}\n${code}\nreturn { fn: ${functionName} };`
-      wrappedModule = new Function(wrapped)() as { fn: (...args: unknown[]) => unknown }
-      if (typeof wrappedModule.fn !== 'function') {
+      const wrapped = `${helperCode}\n${code}\nreturn typeof ${functionName};`
+      const fnType = new Function(wrapped)()
+      if (fnType !== 'function') {
         return testCases.map((tc, i) => ({
           index: i,
           passed: false,
@@ -249,8 +314,13 @@ export function runTests(
       const start = performance.now()
 
       try {
-        // Build a runner that converts inputs and calls the function
-        const fullWrapped = `${helperCode}\n${code}\nreturn (${functionName})(${convertInputs(tc.input as unknown[], dataStructure)});`
+        let fullWrapped: string
+        if (dataStructure === 'binary-tree-lca') {
+          // LCA: convertInputs returns an IIFE producing [root, p, q], spread into function call
+          fullWrapped = `${helperCode}\n${code}\nvar __args = ${convertInputs(tc.input as unknown[], dataStructure)};\nreturn (${functionName})(__args[0], __args[1], __args[2]);`
+        } else {
+          fullWrapped = `${helperCode}\n${code}\nreturn (${functionName})(${convertInputs(tc.input as unknown[], dataStructure)});`
+        }
         const rawResult = new Function(fullWrapped)()
         const elapsed = performance.now() - start
         const actual = convertOutput(rawResult, tc.expected, dataStructure)

@@ -229,6 +229,25 @@ export const problems: Record<string, Problem> = {
       { input: '["MinStack","push","push","push","getMin","pop","top","getMin"]\n[[],[-2],[0],[-3],[],[],[],[]]', output: '[null,null,null,null,-3,null,0,-2]' },
     ],
     hint: '辅助栈同步记录最小值',
+    dataStructure: 'class-ops',
+    functionName: 'MinStack',
+    starterCode: `class MinStack {\n  constructor() {\n    // 初始化\n  }\n  push(val) {\n    \n  }\n  pop() {\n    \n  }\n  top() {\n    \n  }\n  getMin() {\n    \n  }\n}`,
+    testCases: [
+      {
+        input: [
+          ['MinStack','push','push','push','getMin','pop','top','getMin'],
+          [[],[-2],[0],[-3],[],[],[],[]]
+        ],
+        expected: [null,null,null,null,-3,null,0,-2],
+      },
+      {
+        input: [
+          ['MinStack','push','push','getMin','top','pop','getMin'],
+          [[],[1],[2],[],[],[],[]]
+        ],
+        expected: [null,null,null,1,2,null,1],
+      },
+    ],
   },
   'lru-cache': {
     id: 'lru-cache',
@@ -262,6 +281,18 @@ export const problems: Record<string, Problem> = {
   }
 }`,
     hint: 'Map 保持插入顺序，get 时删除再重新插入',
+    dataStructure: 'class-ops',
+    functionName: 'LRUCache',
+    starterCode: `class LRUCache {\n  constructor(capacity) {\n    // 初始化\n  }\n  get(key) {\n    \n  }\n  put(key, value) {\n    \n  }\n}`,
+    testCases: [
+      {
+        input: [
+          ['LRUCache','put','put','get','put','get','put','get','get','get'],
+          [[2],[1,1],[2,2],[1],[3,3],[2],[4,4],[1],[3],[4]]
+        ],
+        expected: [null,null,null,1,null,-1,null,-1,3,4],
+      },
+    ],
   },
 
   // ===== Phase 2: 高频技巧 =====
@@ -824,6 +855,14 @@ export const problems: Record<string, Problem> = {
       { input: 'root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4', output: '5' },
     ],
     hint: '递归查找，左右子树都找到则当前节点是 LCA',
+    dataStructure: 'binary-tree-lca',
+    functionName: 'lowestCommonAncestor',
+    starterCode: `function lowestCommonAncestor(root, p, q) {\n  // root, p, q 都是 TreeNode\n  // TreeNode: { val, left, right }\n  // 返回 p 和 q 的最近公共祖先节点\n  \n}`,
+    testCases: [
+      { input: [[3,5,1,6,2,0,8,null,null,7,4], 5, 1], expected: 3 },
+      { input: [[3,5,1,6,2,0,8,null,null,7,4], 5, 4], expected: 5 },
+      { input: [[1,2], 1, 2], expected: 1 },
+    ],
   },
   'top-k-frequent': {
     id: 'top-k-frequent',
