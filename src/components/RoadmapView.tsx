@@ -3,7 +3,6 @@ import {
   ReactFlow,
   Background,
   Controls,
-  MiniMap,
   Node,
   Edge,
   NodeMouseHandler,
@@ -26,9 +25,16 @@ const statusEdgeColors: Record<string, string> = {
   locked: '#1e293b',
 }
 
+const statusEdgeColorsLight: Record<string, string> = {
+  completed: '#22c55e',
+  available: '#94a3b8',
+  locked: '#e2e8f0',
+}
+
 export default function RoadmapView() {
   const { completedNodes, completedProblems } = useUserStore()
-  const { openLearningPanel } = useUIStore()
+  const { openLearningPanel, theme } = useUIStore()
+  const isDark = theme === 'dark'
 
   const recommendedNode = useMemo(
     () => getRecommendedNode(roadmapNodes, completedNodes),
@@ -62,17 +68,19 @@ export default function RoadmapView() {
     [completedNodes, completedProblems, recommendedNode]
   )
 
+  const edgeColors = isDark ? statusEdgeColors : statusEdgeColorsLight
+
   const edges: Edge[] = useMemo(
     () =>
       roadmapEdges.map((e) => {
         const fromCompleted = completedNodes.includes(e.from)
         const toCompleted = completedNodes.includes(e.to)
 
-        let color = statusEdgeColors.locked
+        let color = edgeColors.locked
         if (fromCompleted && toCompleted) {
-          color = statusEdgeColors.completed
+          color = edgeColors.completed
         } else if (fromCompleted) {
-          color = statusEdgeColors.available
+          color = edgeColors.available
         }
 
         return {
@@ -83,7 +91,7 @@ export default function RoadmapView() {
           animated: fromCompleted && !toCompleted,
         }
       }),
-    [completedNodes]
+    [completedNodes, edgeColors]
   )
 
   const handleNodeClick: NodeMouseHandler = useCallback(
@@ -100,7 +108,7 @@ export default function RoadmapView() {
   )
 
   return (
-    <div className="flex-1">
+    <div className={`flex-1 ${isDark ? 'bg-slate-950' : 'bg-gray-50'} transition-colors`}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -116,20 +124,13 @@ export default function RoadmapView() {
           variant={BackgroundVariant.Dots}
           gap={20}
           size={1}
-          color="#1e293b"
+          color={isDark ? '#1e293b' : '#e2e8f0'}
         />
         <Controls
-          className="!bg-slate-800 !border-slate-600 !rounded-lg [&>button]:!bg-slate-800 [&>button]:!border-slate-600 [&>button]:!text-slate-300 [&>button:hover]:!bg-slate-700"
-        />
-        <MiniMap
-          className="!bg-slate-900 !border-slate-700"
-          nodeColor={(node) => {
-            const status = (node.data as { status: string })?.status
-            if (status === 'completed') return '#22c55e'
-            if (status === 'available') return '#3b82f6'
-            return '#334155'
-          }}
-          maskColor="rgba(15, 23, 42, 0.8)"
+          className={isDark
+            ? '!bg-slate-800 !border-slate-600 !rounded-lg [&>button]:!bg-slate-800 [&>button]:!border-slate-600 [&>button]:!text-slate-300 [&>button:hover]:!bg-slate-700'
+            : '!bg-white !border-gray-300 !rounded-lg [&>button]:!bg-white [&>button]:!border-gray-300 [&>button]:!text-gray-600 [&>button:hover]:!bg-gray-100'
+          }
         />
       </ReactFlow>
     </div>

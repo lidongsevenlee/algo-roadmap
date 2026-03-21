@@ -10,7 +10,7 @@ export const roadmapNodes: RoadmapNode[] = [
     difficulty: 'easy',
     prerequisites: [],
     problems: ['two-sum', 'valid-anagram', 'group-anagrams', 'contains-duplicate'],
-    position: { x: 0, y: 0 },
+    position: { x: 50, y: 0 },
     knowledge: {
       title: '哈希表 Hash Map',
       description: '哈希表通过键值对存储数据，提供 O(1) 的查找、插入和删除操作。在 JavaScript 中，Map 和普通对象都可以用作哈希表。',
@@ -43,7 +43,7 @@ for (const item of arr) {
     difficulty: 'easy',
     prerequisites: [],
     problems: ['merge-two-sorted-lists', 'reverse-linked-list', 'linked-list-cycle'],
-    position: { x: 300, y: 0 },
+    position: { x: 350, y: 0 },
     knowledge: {
       title: '链表 Linked List',
       description: '链表是一种线性数据结构，元素通过指针连接。与数组不同，链表的插入和删除是 O(1)，但访问是 O(n)。',
@@ -77,7 +77,7 @@ return dummy.next`,
     difficulty: 'easy',
     prerequisites: [],
     problems: ['valid-parentheses', 'min-stack'],
-    position: { x: 600, y: 0 },
+    position: { x: 650, y: 0 },
     knowledge: {
       title: '栈与队列',
       description: '栈（LIFO）和队列（FIFO）是两种基本的线性数据结构。JavaScript 数组天然支持栈和队列操作。',
@@ -108,7 +108,7 @@ queue.shift()     // 出队`,
     difficulty: 'medium',
     prerequisites: ['hash-map', 'linked-list'],
     problems: ['lru-cache'],
-    position: { x: 150, y: 150 },
+    position: { x: 200, y: 180 },
     knowledge: {
       title: 'LRU 缓存',
       description: 'LRU（Least Recently Used）缓存淘汰最近最少使用的数据。是面试超高频题，也是实际工程中常用的缓存策略。',
@@ -152,7 +152,7 @@ queue.shift()     // 出队`,
     difficulty: 'easy',
     prerequisites: ['hash-map'],
     problems: ['move-zeroes', 'remove-duplicates', 'container-with-most-water', 'three-sum'],
-    position: { x: 0, y: 300 },
+    position: { x: 50, y: 350 },
     knowledge: {
       title: '双指针',
       description: '双指针是一种在有序数组或链表中高效遍历的技巧。通过两个指针的协同移动减少时间复杂度。',
@@ -189,7 +189,7 @@ for (let fast = 0; fast < arr.length; fast++) {
     difficulty: 'medium',
     prerequisites: ['two-pointers', 'hash-map'],
     problems: ['longest-substring-without-repeating', 'minimum-window-substring', 'max-sliding-window', 'find-all-anagrams'],
-    position: { x: 0, y: 450 },
+    position: { x: 50, y: 530 },
     knowledge: {
       title: '滑动窗口',
       description: '滑动窗口是双指针的进阶应用，通过维护一个可变大小的窗口来解决子串/子数组问题。这是前端工程师最应该掌握的算法技巧之一。',
@@ -232,7 +232,7 @@ function slidingWindow(s) {
     difficulty: 'medium',
     prerequisites: ['two-pointers'],
     problems: ['binary-search', 'search-rotated-sorted-array', 'find-first-and-last'],
-    position: { x: 300, y: 300 },
+    position: { x: 350, y: 350 },
     knowledge: {
       title: '二分查找',
       description: '二分查找在有序数组中以 O(log n) 的时间复杂度查找目标值。关键在于正确处理边界条件。',
@@ -277,7 +277,7 @@ function leftBound(nums, target) {
     difficulty: 'medium',
     prerequisites: ['stack-queue'],
     problems: ['permutations', 'subsets', 'combination-sum', 'word-search'],
-    position: { x: 600, y: 300 },
+    position: { x: 650, y: 350 },
     knowledge: {
       title: '回溯算法',
       description: '回溯是 DFS 的一种形式，通过"做选择 → 递归 → 撤销选择"来穷举所有可能的解。适用于排列、组合、子集等问题。',
@@ -313,7 +313,7 @@ function leftBound(nums, target) {
     difficulty: 'medium',
     prerequisites: ['stack-queue'],
     problems: ['binary-tree-level-order'],
-    position: { x: 600, y: 450 },
+    position: { x: 650, y: 530 },
     knowledge: {
       title: 'BFS 广度优先搜索',
       description: 'BFS 使用队列按层遍历，适合求最短路径、层序遍历等问题。',
@@ -353,7 +353,7 @@ function leftBound(nums, target) {
     difficulty: 'hard',
     prerequisites: ['binary-search-node', 'backtracking'],
     problems: ['climbing-stairs', 'house-robber', 'longest-increasing-subsequence', 'longest-palindromic-substring'],
-    position: { x: 300, y: 450 },
+    position: { x: 350, y: 530 },
     knowledge: {
       title: '动态规划',
       description: '动态规划通过将大问题分解为重叠子问题，利用记忆化避免重复计算。核心是找到状态定义和状态转移方程。',
@@ -398,7 +398,7 @@ for (let i = 2; i <= n; i++) {
     difficulty: 'medium',
     prerequisites: ['backtracking', 'bfs-node'],
     problems: ['inorder-traversal', 'max-depth-binary-tree', 'validate-bst', 'lowest-common-ancestor'],
-    position: { x: 600, y: 600 },
+    position: { x: 650, y: 710 },
     knowledge: {
       title: '树',
       description: '树是最常考的数据结构之一。掌握前/中/后序遍历、递归思维和常见题型是面试的基本功。',
@@ -441,7 +441,7 @@ function solve(root) {
     difficulty: 'medium',
     prerequisites: ['tree'],
     problems: ['top-k-frequent', 'kth-largest'],
-    position: { x: 450, y: 700 },
+    position: { x: 500, y: 890 },
     knowledge: {
       title: '堆 / 优先队列',
       description: '堆是一种特殊的完全二叉树，可以在 O(log n) 时间内插入和取出最值。常用于 Top K 问题。',
@@ -481,7 +481,7 @@ function topKFrequent(nums, k) {
     difficulty: 'hard',
     prerequisites: ['bfs-node', 'backtracking'],
     problems: ['number-of-islands', 'course-schedule'],
-    position: { x: 750, y: 600 },
+    position: { x: 850, y: 710 },
     knowledge: {
       title: '图',
       description: '图由节点和边组成，是最通用的数据结构。面试中常考连通性、最短路径和拓扑排序。',

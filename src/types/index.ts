@@ -29,6 +29,8 @@ export interface Problem {
   difficulty: Difficulty
   pattern: PatternType
   link: string
+  description: string
+  examples?: { input: string; output: string; explanation?: string }[]
   template?: string
   hint?: string
 }
