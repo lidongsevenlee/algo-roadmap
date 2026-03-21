@@ -174,6 +174,14 @@ export const problems: Record<string, Problem> = {
       { input: 'head = [3,2,0,-4], pos = 1', output: 'true', explanation: '链表中有一个环，其尾部连接到第二个节点' },
     ],
     hint: '快慢指针，快指针每次走两步',
+    dataStructure: 'linked-list-cycle',
+    functionName: 'hasCycle',
+    starterCode: `function hasCycle(head) {\n  // head 是 ListNode 链表（可能有环）\n  // ListNode: { val, next }\n  // 返回 true/false\n  \n}`,
+    testCases: [
+      { input: [[3,2,0,-4], 1], expected: true },
+      { input: [[1,2], 0], expected: true },
+      { input: [[1], -1], expected: false },
+    ],
   },
   'valid-parentheses': {
     id: 'valid-parentheses',

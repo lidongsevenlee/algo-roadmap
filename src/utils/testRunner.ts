@@ -63,6 +63,21 @@ function __listToArray(head) {
   }
   return result;
 }
+function __arrayToListWithCycle(arr, pos) {
+  if (!arr || !arr.length) return null;
+  const dummy = new ListNode(0);
+  let curr = dummy;
+  const nodes = [];
+  for (const val of arr) {
+    curr.next = new ListNode(val);
+    curr = curr.next;
+    nodes.push(curr);
+  }
+  if (pos >= 0 && pos < nodes.length) {
+    curr.next = nodes[pos];
+  }
+  return dummy.next;
+}
 `
 
 // Helper code injected for binary-tree problems
@@ -113,16 +128,23 @@ function __treeToArray(root) {
 }
 `
 
-type DataStructureType = 'linked-list' | 'binary-tree' | undefined
+type DataStructureType = 'linked-list' | 'linked-list-cycle' | 'binary-tree' | undefined
 
 function getHelperCode(ds: DataStructureType): string {
-  if (ds === 'linked-list') return linkedListHelpers
+  if (ds === 'linked-list' || ds === 'linked-list-cycle') return linkedListHelpers
   if (ds === 'binary-tree') return binaryTreeHelpers
   return ''
 }
 
 function convertInputs(inputs: unknown[], ds: DataStructureType): string {
   if (!ds) return inputs.map((v) => JSON.stringify(v)).join(', ')
+
+  if (ds === 'linked-list-cycle') {
+    // inputs: [arr, pos] → __arrayToListWithCycle(arr, pos)
+    const arr = JSON.stringify(inputs[0])
+    const pos = JSON.stringify(inputs[1])
+    return `__arrayToListWithCycle(${arr}, ${pos})`
+  }
 
   if (ds === 'linked-list') {
     return inputs.map((v) => {
@@ -143,6 +165,8 @@ function convertInputs(inputs: unknown[], ds: DataStructureType): string {
 
 function convertOutput(result: unknown, _expected: unknown, ds: DataStructureType): unknown {
   if (!ds) return result
+  // linked-list-cycle returns boolean, no conversion needed
+  if (ds === 'linked-list-cycle') return result
   // null means empty list/tree → return empty array
   if (result === null || result === undefined) {
     if (ds === 'linked-list' || ds === 'binary-tree') return []
