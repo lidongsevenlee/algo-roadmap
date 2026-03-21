@@ -122,6 +122,14 @@ export const problems: Record<string, Problem> = {
   return dummy.next
 }`,
     hint: '哑节点 + 双指针逐一比较',
+    dataStructure: 'linked-list',
+    functionName: 'mergeTwoLists',
+    starterCode: `function mergeTwoLists(l1, l2) {\n  // l1, l2 是 ListNode 链表\n  // ListNode: { val, next }\n  \n}`,
+    testCases: [
+      { input: [[1,2,4], [1,3,4]], expected: [1,1,2,3,4,4] },
+      { input: [[], []], expected: [] },
+      { input: [[], [0]], expected: [0] },
+    ],
   },
   'reverse-linked-list': {
     id: 'reverse-linked-list',
@@ -145,6 +153,14 @@ export const problems: Record<string, Problem> = {
   return prev
 }`,
     hint: '三指针：prev, curr, next',
+    dataStructure: 'linked-list',
+    functionName: 'reverseList',
+    starterCode: `function reverseList(head) {\n  // head 是 ListNode 链表\n  // ListNode: { val, next }\n  \n}`,
+    testCases: [
+      { input: [[1,2,3,4,5]], expected: [5,4,3,2,1] },
+      { input: [[1,2]], expected: [2,1] },
+      { input: [[]], expected: [] },
+    ],
   },
   'linked-list-cycle': {
     id: 'linked-list-cycle',
@@ -620,6 +636,14 @@ export const problems: Record<string, Problem> = {
   return result
 }`,
     hint: '队列 + 记录每层节点数',
+    dataStructure: 'binary-tree',
+    functionName: 'levelOrder',
+    starterCode: `function levelOrder(root) {\n  // root 是 TreeNode 二叉树\n  // TreeNode: { val, left, right }\n  \n}`,
+    testCases: [
+      { input: [[3,9,20,null,null,15,7]], expected: [[3],[9,20],[15,7]] },
+      { input: [[1]], expected: [[1]] },
+      { input: [[]], expected: [] },
+    ],
   },
   'climbing-stairs': {
     id: 'climbing-stairs',
@@ -727,6 +751,14 @@ export const problems: Record<string, Problem> = {
       { input: 'root = [1,null,2,3]', output: '[1,3,2]' },
     ],
     hint: '左 → 根 → 右',
+    dataStructure: 'binary-tree',
+    functionName: 'inorderTraversal',
+    starterCode: `function inorderTraversal(root) {\n  // root 是 TreeNode 二叉树\n  // TreeNode: { val, left, right }\n  \n}`,
+    testCases: [
+      { input: [[1,null,2,3]], expected: [1,3,2] },
+      { input: [[]], expected: [] },
+      { input: [[1]], expected: [1] },
+    ],
   },
   'max-depth-binary-tree': {
     id: 'max-depth-binary-tree',
@@ -740,6 +772,14 @@ export const problems: Record<string, Problem> = {
       { input: 'root = [3,9,20,null,null,15,7]', output: '3' },
     ],
     hint: '递归：1 + max(左深度, 右深度)',
+    dataStructure: 'binary-tree',
+    functionName: 'maxDepth',
+    starterCode: `function maxDepth(root) {\n  // root 是 TreeNode 二叉树\n  // TreeNode: { val, left, right }\n  \n}`,
+    testCases: [
+      { input: [[3,9,20,null,null,15,7]], expected: 3 },
+      { input: [[1,null,2]], expected: 2 },
+      { input: [[]], expected: 0 },
+    ],
   },
   'validate-bst': {
     id: 'validate-bst',
@@ -754,6 +794,14 @@ export const problems: Record<string, Problem> = {
       { input: 'root = [5,1,4,null,null,3,6]', output: 'false' },
     ],
     hint: '中序遍历递增 或 递归传递上下界',
+    dataStructure: 'binary-tree',
+    functionName: 'isValidBST',
+    starterCode: `function isValidBST(root) {\n  // root 是 TreeNode 二叉树\n  // TreeNode: { val, left, right }\n  \n}`,
+    testCases: [
+      { input: [[2,1,3]], expected: true },
+      { input: [[5,1,4,null,null,3,6]], expected: false },
+      { input: [[1]], expected: true },
+    ],
   },
   'lowest-common-ancestor': {
     id: 'lowest-common-ancestor',

@@ -41,6 +41,7 @@ export interface Problem {
   starterCode?: string
   testCases?: TestCase[]
   functionName?: string
+  dataStructure?: 'linked-list' | 'binary-tree'
 }
 
 export interface KnowledgeCard {

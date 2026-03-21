@@ -73,7 +73,7 @@ export default function CodeEditor({ problem }: CodeEditorProps) {
 
     // Run async to let UI update
     setTimeout(() => {
-      const testResults = runTests(code, problem.functionName!, problem.testCases!)
+      const testResults = runTests(code, problem.functionName!, problem.testCases!, problem.dataStructure)
       setResults(testResults)
       setRunning(false)
     }, 50)
