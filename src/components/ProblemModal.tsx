@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { Problem } from '@/types'
 import { useUIStore } from '@/store/uiStore'
 import { useUserStore } from '@/store/userStore'
+import CodeEditor from './CodeEditor'
 
 interface ProblemModalProps {
   problem: Problem
@@ -39,6 +41,9 @@ export default function ProblemModal({ problem }: ProblemModalProps) {
   const { closeProblemModal, showToastMessage } = useUIStore()
   const { completedProblems, completeProblem, uncompleteProblem } = useUserStore()
   const isCompleted = completedProblems.includes(problem.id)
+  const hasEditor = !!problem.starterCode && !!problem.testCases
+  const [showHint, setShowHint] = useState(false)
+  const [showTemplate, setShowTemplate] = useState(false)
 
   const handleToggle = () => {
     if (isCompleted) {
@@ -57,111 +62,130 @@ export default function ProblemModal({ problem }: ProblemModalProps) {
         onClick={closeProblemModal}
       />
 
-      {/* Modal */}
-      <div className="relative w-full max-w-2xl max-h-[85vh] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-slate-700 overflow-hidden flex flex-col transition-colors">
+      {/* Modal - wider when editor is present */}
+      <div className={`relative w-full ${hasEditor ? 'max-w-6xl' : 'max-w-2xl'} h-[90vh] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-slate-700 overflow-hidden flex flex-col transition-colors`}>
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-200 dark:border-slate-700 flex items-start justify-between">
-          <div>
-            <div className="flex items-center gap-3 mb-1">
-              <h2 className="text-lg font-bold text-gray-900 dark:text-slate-100">
-                {problem.titleCN}
-              </h2>
-              <span className={`text-xs px-2 py-0.5 rounded ${difficultyColor[problem.difficulty]}`}>
-                {difficultyLabel[problem.difficulty]}
-              </span>
-            </div>
-            <div className="text-sm text-gray-500 dark:text-slate-400">{problem.title}</div>
-          </div>
-          <button
-            onClick={closeProblemModal}
-            className="text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-slate-200 text-xl p-1"
-          >
-            ✕
-          </button>
-        </div>
-
-        {/* Body */}
-        <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
-          {/* Pattern tag */}
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-400/10 px-2.5 py-1 rounded-full">
+        <div className="px-5 py-3 border-b border-gray-200 dark:border-slate-700 flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-3">
+            <h2 className="text-base font-bold text-gray-900 dark:text-slate-100">
+              {problem.titleCN}
+            </h2>
+            <span className="text-sm text-gray-400 dark:text-slate-500">{problem.title}</span>
+            <span className={`text-xs px-2 py-0.5 rounded ${difficultyColor[problem.difficulty]}`}>
+              {difficultyLabel[problem.difficulty]}
+            </span>
+            <span className="text-xs font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-400/10 px-2 py-0.5 rounded-full">
               {patternLabels[problem.pattern] || problem.pattern}
             </span>
           </div>
-
-          {/* Description */}
-          <div>
-            <h3 className="text-sm font-semibold text-gray-700 dark:text-slate-300 mb-2">题目描述</h3>
-            <div className="text-sm text-gray-600 dark:text-slate-300 leading-relaxed whitespace-pre-wrap">
-              {problem.description}
-            </div>
+          <div className="flex items-center gap-3">
+            <a
+              href={problem.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-gray-400 dark:text-slate-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+            >
+              LeetCode ↗
+            </a>
+            <button
+              onClick={handleToggle}
+              className={`
+                text-xs px-3 py-1.5 rounded-md font-medium transition-colors
+                ${isCompleted
+                  ? 'bg-green-100 dark:bg-green-500/20 text-green-700 dark:text-green-400 hover:bg-red-100 dark:hover:bg-red-500/20 hover:text-red-600 dark:hover:text-red-400'
+                  : 'bg-blue-600 text-white hover:bg-blue-500'
+                }
+              `}
+            >
+              {isCompleted ? '✓ 已完成' : '标记完成'}
+            </button>
+            <button
+              onClick={closeProblemModal}
+              className="text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-slate-200 text-lg"
+            >
+              ✕
+            </button>
           </div>
-
-          {/* Examples */}
-          {problem.examples && problem.examples.length > 0 && (
-            <div>
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-slate-300 mb-2">示例</h3>
-              <div className="space-y-3">
-                {problem.examples.map((ex, i) => (
-                  <div key={i} className="bg-gray-50 dark:bg-slate-800 rounded-lg p-3 border border-gray-100 dark:border-slate-700">
-                    <div className="text-xs font-medium text-gray-500 dark:text-slate-400 mb-1">示例 {i + 1}</div>
-                    <div className="font-mono text-sm text-gray-700 dark:text-slate-300">
-                      <div><span className="text-gray-400 dark:text-slate-500">输入：</span>{ex.input}</div>
-                      <div><span className="text-gray-400 dark:text-slate-500">输出：</span>{ex.output}</div>
-                      {ex.explanation && (
-                        <div className="mt-1 text-gray-500 dark:text-slate-400 text-xs">
-                          <span>解释：</span>{ex.explanation}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Hint */}
-          {problem.hint && (
-            <div className="bg-yellow-50 dark:bg-yellow-400/5 border border-yellow-200 dark:border-yellow-400/20 rounded-lg p-3">
-              <div className="text-xs font-medium text-yellow-700 dark:text-yellow-400 mb-1">💡 提示</div>
-              <div className="text-sm text-yellow-800 dark:text-yellow-300">{problem.hint}</div>
-            </div>
-          )}
-
-          {/* Template */}
-          {problem.template && (
-            <div>
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-slate-300 mb-2">参考模板</h3>
-              <pre className="bg-gray-50 dark:bg-slate-950 border border-gray-200 dark:border-slate-700 rounded-lg p-4 text-sm text-gray-700 dark:text-slate-300 overflow-x-auto font-mono leading-relaxed">
-                {problem.template}
-              </pre>
-            </div>
-          )}
         </div>
 
-        {/* Footer */}
-        <div className="px-6 py-4 border-t border-gray-200 dark:border-slate-700 flex items-center justify-between">
-          <a
-            href={problem.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-gray-500 dark:text-slate-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
-          >
-            在 LeetCode 中打开 ↗
-          </a>
-          <button
-            onClick={handleToggle}
-            className={`
-              px-4 py-2 rounded-lg text-sm font-medium transition-colors
-              ${
-                isCompleted
-                  ? 'bg-green-100 dark:bg-green-500/20 text-green-700 dark:text-green-400 hover:bg-red-100 dark:hover:bg-red-500/20 hover:text-red-700 dark:hover:text-red-400'
-                  : 'bg-blue-600 text-white hover:bg-blue-500'
-              }
-            `}
-          >
-            {isCompleted ? '✓ 已完成（点击取消）' : '标记完成'}
-          </button>
+        {/* Body */}
+        <div className="flex-1 flex overflow-hidden">
+          {/* Left: Problem description */}
+          <div className={`${hasEditor ? 'w-[45%]' : 'w-full'} overflow-y-auto px-5 py-4 space-y-4 border-r border-gray-200 dark:border-slate-700`}>
+            {/* Description */}
+            <div>
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-slate-300 mb-2">题目描述</h3>
+              <div className="text-sm text-gray-600 dark:text-slate-300 leading-relaxed whitespace-pre-wrap">
+                {problem.description}
+              </div>
+            </div>
+
+            {/* Examples */}
+            {problem.examples && problem.examples.length > 0 && (
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 dark:text-slate-300 mb-2">示例</h3>
+                <div className="space-y-2">
+                  {problem.examples.map((ex, i) => (
+                    <div key={i} className="bg-gray-50 dark:bg-slate-800 rounded-lg p-3 border border-gray-100 dark:border-slate-700">
+                      <div className="text-xs font-medium text-gray-500 dark:text-slate-400 mb-1">示例 {i + 1}</div>
+                      <div className="font-mono text-xs text-gray-700 dark:text-slate-300">
+                        <div><span className="text-gray-400 dark:text-slate-500">输入：</span>{ex.input}</div>
+                        <div><span className="text-gray-400 dark:text-slate-500">输出：</span>{ex.output}</div>
+                        {ex.explanation && (
+                          <div className="mt-1 text-gray-500 dark:text-slate-400 text-[11px]">
+                            解释：{ex.explanation}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Hint (collapsible) */}
+            {problem.hint && (
+              <div>
+                <button
+                  onClick={() => setShowHint(!showHint)}
+                  className="text-sm font-semibold text-yellow-700 dark:text-yellow-400 flex items-center gap-1.5 hover:opacity-80"
+                >
+                  <span>{showHint ? '▾' : '▸'}</span>
+                  💡 提示
+                </button>
+                {showHint && (
+                  <div className="mt-2 bg-yellow-50 dark:bg-yellow-400/5 border border-yellow-200 dark:border-yellow-400/20 rounded-lg p-3">
+                    <div className="text-sm text-yellow-800 dark:text-yellow-300">{problem.hint}</div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Template (collapsible) */}
+            {problem.template && (
+              <div>
+                <button
+                  onClick={() => setShowTemplate(!showTemplate)}
+                  className="text-sm font-semibold text-gray-700 dark:text-slate-300 flex items-center gap-1.5 hover:text-blue-500 dark:hover:text-blue-400"
+                >
+                  <span>{showTemplate ? '▾' : '▸'}</span>
+                  参考模板
+                </button>
+                {showTemplate && (
+                  <pre className="mt-2 bg-gray-50 dark:bg-slate-950 border border-gray-200 dark:border-slate-700 rounded-lg p-3 text-xs text-gray-700 dark:text-slate-300 overflow-x-auto font-mono leading-relaxed">
+                    {problem.template}
+                  </pre>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Right: Code editor */}
+          {hasEditor && (
+            <div className="flex-1 flex flex-col overflow-hidden">
+              <CodeEditor problem={problem} />
+            </div>
+          )}
         </div>
       </div>
     </div>

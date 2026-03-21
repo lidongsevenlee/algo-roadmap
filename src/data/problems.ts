@@ -25,6 +25,13 @@ export const problems: Record<string, Problem> = {
   }
 }`,
     hint: '用哈希表存储已遍历的值，一次遍历即可',
+    functionName: 'twoSum',
+    starterCode: `function twoSum(nums, target) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: [[2,7,11,15], 9], expected: [0,1] },
+      { input: [[3,2,4], 6], expected: [1,2] },
+      { input: [[3,3], 6], expected: [0,1] },
+    ],
   },
   'valid-anagram': {
     id: 'valid-anagram',
@@ -39,6 +46,13 @@ export const problems: Record<string, Problem> = {
       { input: 's = "rat", t = "car"', output: 'false' },
     ],
     hint: '用哈希表统计字符频率',
+    functionName: 'isAnagram',
+    starterCode: `function isAnagram(s, t) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: ['anagram', 'nagaram'], expected: true },
+      { input: ['rat', 'car'], expected: false },
+      { input: ['', ''], expected: true },
+    ],
   },
   'group-anagrams': {
     id: 'group-anagrams',
@@ -52,6 +66,14 @@ export const problems: Record<string, Problem> = {
       { input: 'strs = ["eat","tea","tan","ate","nat","bat"]', output: '[["bat"],["nat","tan"],["ate","eat","tea"]]' },
     ],
     hint: '排序后的字符串作为 key',
+    functionName: 'groupAnagrams',
+    starterCode: `function groupAnagrams(strs) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      // Note: order of groups and order within groups may vary
+      { input: [['eat','tea','tan','ate','nat','bat']], expected: [['eat','tea','ate'],['tan','nat'],['bat']] },
+      { input: [['']], expected: [['']] },
+      { input: [['a']], expected: [['a']] },
+    ],
   },
   'contains-duplicate': {
     id: 'contains-duplicate',
@@ -66,6 +88,13 @@ export const problems: Record<string, Problem> = {
       { input: 'nums = [1,2,3,4]', output: 'false' },
     ],
     hint: '用 Set 判断是否已存在',
+    functionName: 'containsDuplicate',
+    starterCode: `function containsDuplicate(nums) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: [[1,2,3,1]], expected: true },
+      { input: [[1,2,3,4]], expected: false },
+      { input: [[1,1,1,3,3,4,3,2,4,2]], expected: true },
+    ],
   },
   'merge-two-sorted-lists': {
     id: 'merge-two-sorted-lists',
@@ -156,6 +185,13 @@ export const problems: Record<string, Problem> = {
   return stack.length === 0
 }`,
     hint: '遇到左括号入栈，右括号出栈匹配',
+    functionName: 'isValid',
+    starterCode: `function isValid(s) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: ['()'], expected: true },
+      { input: ['()[]{}'], expected: true },
+      { input: ['(]'], expected: false },
+    ],
   },
   'min-stack': {
     id: 'min-stack',
@@ -218,6 +254,13 @@ export const problems: Record<string, Problem> = {
       { input: 'nums = [0]', output: '[0]' },
     ],
     hint: '快慢指针，非零元素往前移',
+    functionName: 'moveZeroes',
+    starterCode: `function moveZeroes(nums) {\n  // 在这里写你的代码（原地修改 nums）\n  \n}`,
+    testCases: [
+      { input: [[0,1,0,3,12]], expected: [1,3,12,0,0] },
+      { input: [[0]], expected: [0] },
+      { input: [[1,2,3]], expected: [1,2,3] },
+    ],
   },
   'remove-duplicates': {
     id: 'remove-duplicates',
@@ -232,6 +275,13 @@ export const problems: Record<string, Problem> = {
       { input: 'nums = [0,0,1,1,1,2,2,3,3,4]', output: '5, nums = [0,1,2,3,4,_,_,_,_,_]' },
     ],
     hint: '慢指针记录不重复位置，快指针遍历',
+    functionName: 'removeDuplicates',
+    starterCode: `function removeDuplicates(nums) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: [[1,1,2]], expected: 2 },
+      { input: [[0,0,1,1,1,2,2,3,3,4]], expected: 5 },
+      { input: [[1]], expected: 1 },
+    ],
   },
   'container-with-most-water': {
     id: 'container-with-most-water',
@@ -245,6 +295,13 @@ export const problems: Record<string, Problem> = {
       { input: 'height = [1,8,6,2,5,4,8,3,7]', output: '49' },
     ],
     hint: '左右指针，移动较短的那边',
+    functionName: 'maxArea',
+    starterCode: `function maxArea(height) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: [[1,8,6,2,5,4,8,3,7]], expected: 49 },
+      { input: [[1,1]], expected: 1 },
+      { input: [[4,3,2,1,4]], expected: 16 },
+    ],
   },
   'three-sum': {
     id: 'three-sum',
@@ -258,6 +315,13 @@ export const problems: Record<string, Problem> = {
       { input: 'nums = [-1,0,1,2,-1,-4]', output: '[[-1,-1,2],[-1,0,1]]' },
     ],
     hint: '排序 + 固定一个数 + 双指针',
+    functionName: 'threeSum',
+    starterCode: `function threeSum(nums) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: [[-1,0,1,2,-1,-4]], expected: [[-1,-1,2],[-1,0,1]] },
+      { input: [[0,1,1]], expected: [] },
+      { input: [[0,0,0]], expected: [[0,0,0]] },
+    ],
   },
   'longest-substring-without-repeating': {
     id: 'longest-substring-without-repeating',
@@ -285,6 +349,13 @@ export const problems: Record<string, Problem> = {
   return maxLen
 }`,
     hint: 'Set + 滑动窗口，右指针扩展，左指针收缩',
+    functionName: 'lengthOfLongestSubstring',
+    starterCode: `function lengthOfLongestSubstring(s) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: ['abcabcbb'], expected: 3 },
+      { input: ['bbbbb'], expected: 1 },
+      { input: ['pwwkew'], expected: 3 },
+    ],
   },
   'minimum-window-substring': {
     id: 'minimum-window-substring',
@@ -299,6 +370,13 @@ export const problems: Record<string, Problem> = {
       { input: 's = "a", t = "a"', output: '"a"' },
     ],
     hint: '双 Map 计数 + 滑动窗口',
+    functionName: 'minWindow',
+    starterCode: `function minWindow(s, t) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: ['ADOBECODEBANC', 'ABC'], expected: 'BANC' },
+      { input: ['a', 'a'], expected: 'a' },
+      { input: ['a', 'aa'], expected: '' },
+    ],
   },
   'max-sliding-window': {
     id: 'max-sliding-window',
@@ -312,6 +390,13 @@ export const problems: Record<string, Problem> = {
       { input: 'nums = [1,3,-1,-3,5,3,6,7], k = 3', output: '[3,3,5,5,6,7]' },
     ],
     hint: '单调递减队列',
+    functionName: 'maxSlidingWindow',
+    starterCode: `function maxSlidingWindow(nums, k) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: [[1,3,-1,-3,5,3,6,7], 3], expected: [3,3,5,5,6,7] },
+      { input: [[1], 1], expected: [1] },
+      { input: [[1,-1], 1], expected: [1,-1] },
+    ],
   },
   'find-all-anagrams': {
     id: 'find-all-anagrams',
@@ -325,6 +410,13 @@ export const problems: Record<string, Problem> = {
       { input: 's = "cbaebabacd", p = "abc"', output: '[0,6]', explanation: '起始索引等于 0 的子串是 "cba"，它是 "abc" 的异位词。起始索引等于 6 的子串是 "bac"，它是 "abc" 的异位词。' },
     ],
     hint: '固定窗口大小的滑动窗口',
+    functionName: 'findAnagrams',
+    starterCode: `function findAnagrams(s, p) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: ['cbaebabacd', 'abc'], expected: [0,6] },
+      { input: ['abab', 'ab'], expected: [0,1,2] },
+      { input: ['af', 'be'], expected: [] },
+    ],
   },
   'binary-search': {
     id: 'binary-search',
@@ -349,6 +441,13 @@ export const problems: Record<string, Problem> = {
   return -1
 }`,
     hint: '左闭右闭区间，注意边界条件',
+    functionName: 'binarySearch',
+    starterCode: `function binarySearch(nums, target) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: [[-1,0,3,5,9,12], 9], expected: 4 },
+      { input: [[-1,0,3,5,9,12], 2], expected: -1 },
+      { input: [[5], 5], expected: 0 },
+    ],
   },
   'search-rotated-sorted-array': {
     id: 'search-rotated-sorted-array',
@@ -363,6 +462,13 @@ export const problems: Record<string, Problem> = {
       { input: 'nums = [4,5,6,7,0,1,2], target = 3', output: '-1' },
     ],
     hint: '先判断哪半段有序，再决定搜索方向',
+    functionName: 'search',
+    starterCode: `function search(nums, target) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: [[4,5,6,7,0,1,2], 0], expected: 4 },
+      { input: [[4,5,6,7,0,1,2], 3], expected: -1 },
+      { input: [[1], 0], expected: -1 },
+    ],
   },
   'find-first-and-last': {
     id: 'find-first-and-last',
@@ -377,6 +483,13 @@ export const problems: Record<string, Problem> = {
       { input: 'nums = [5,7,7,8,8,10], target = 6', output: '[-1,-1]' },
     ],
     hint: '两次二分查找左右边界',
+    functionName: 'searchRange',
+    starterCode: `function searchRange(nums, target) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: [[5,7,7,8,8,10], 8], expected: [3,4] },
+      { input: [[5,7,7,8,8,10], 6], expected: [-1,-1] },
+      { input: [[], 0], expected: [-1,-1] },
+    ],
   },
 
   // ===== Phase 3: 算法思想 =====
@@ -411,6 +524,13 @@ export const problems: Record<string, Problem> = {
   return result
 }`,
     hint: '回溯模板：做选择 → 递归 → 撤销选择',
+    functionName: 'permute',
+    starterCode: `function permute(nums) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: [[1,2,3]], expected: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]] },
+      { input: [[0,1]], expected: [[0,1],[1,0]] },
+      { input: [[1]], expected: [[1]] },
+    ],
   },
   'subsets': {
     id: 'subsets',
@@ -424,6 +544,13 @@ export const problems: Record<string, Problem> = {
       { input: 'nums = [1,2,3]', output: '[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]' },
     ],
     hint: '每个元素选或不选',
+    functionName: 'subsets',
+    starterCode: `function subsets(nums) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      // Note: order of subsets may vary
+      { input: [[1,2,3]], expected: [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]] },
+      { input: [[0]], expected: [[],[0]] },
+    ],
   },
   'combination-sum': {
     id: 'combination-sum',
@@ -437,6 +564,14 @@ export const problems: Record<string, Problem> = {
       { input: 'candidates = [2,3,6,7], target = 7', output: '[[2,2,3],[7]]' },
     ],
     hint: '回溯 + 可重复选择（start 不加 1）',
+    functionName: 'combinationSum',
+    starterCode: `function combinationSum(candidates, target) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      // Note: order of combinations may vary
+      { input: [[2,3,6,7], 7], expected: [[2,2,3],[7]] },
+      { input: [[2,3,5], 8], expected: [[2,2,2,2],[2,3,3],[3,5]] },
+      { input: [[2], 1], expected: [] },
+    ],
   },
   'word-search': {
     id: 'word-search',
@@ -450,6 +585,13 @@ export const problems: Record<string, Problem> = {
       { input: 'board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"', output: 'true' },
     ],
     hint: 'DFS + 标记访问过的格子',
+    functionName: 'exist',
+    starterCode: `function exist(board, word) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: [[['A','B','C','E'],['S','F','C','S'],['A','D','E','E']], 'ABCCED'], expected: true },
+      { input: [[['A','B','C','E'],['S','F','C','S'],['A','D','E','E']], 'SEE'], expected: true },
+      { input: [[['A','B','C','E'],['S','F','C','S'],['A','D','E','E']], 'ABCB'], expected: false },
+    ],
   },
   'binary-tree-level-order': {
     id: 'binary-tree-level-order',
@@ -500,6 +642,13 @@ export const problems: Record<string, Problem> = {
   return b
 }`,
     hint: 'dp[i] = dp[i-1] + dp[i-2]',
+    functionName: 'climbStairs',
+    starterCode: `function climbStairs(n) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: [2], expected: 2 },
+      { input: [3], expected: 3 },
+      { input: [5], expected: 8 },
+    ],
   },
   'house-robber': {
     id: 'house-robber',
@@ -514,6 +663,13 @@ export const problems: Record<string, Problem> = {
       { input: 'nums = [2,7,9,3,1]', output: '12' },
     ],
     hint: 'dp[i] = max(dp[i-1], dp[i-2] + nums[i])',
+    functionName: 'rob',
+    starterCode: `function rob(nums) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: [[1,2,3,1]], expected: 4 },
+      { input: [[2,7,9,3,1]], expected: 12 },
+      { input: [[2,1,1,2]], expected: 4 },
+    ],
   },
   'longest-increasing-subsequence': {
     id: 'longest-increasing-subsequence',
@@ -527,6 +683,13 @@ export const problems: Record<string, Problem> = {
       { input: 'nums = [10,9,2,5,3,7,101,18]', output: '4', explanation: '最长递增子序列是 [2,3,7,101]，因此长度为 4' },
     ],
     hint: 'dp[i] = max(dp[j] + 1)，其中 j < i 且 nums[j] < nums[i]',
+    functionName: 'lengthOfLIS',
+    starterCode: `function lengthOfLIS(nums) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: [[10,9,2,5,3,7,101,18]], expected: 4 },
+      { input: [[0,1,0,3,2,3]], expected: 4 },
+      { input: [[7,7,7,7,7,7,7]], expected: 1 },
+    ],
   },
   'longest-palindromic-substring': {
     id: 'longest-palindromic-substring',
@@ -541,6 +704,14 @@ export const problems: Record<string, Problem> = {
       { input: 's = "cbbd"', output: '"bb"' },
     ],
     hint: '中心扩展法或 dp[i][j] 表示 s[i..j] 是否回文',
+    functionName: 'longestPalindrome',
+    starterCode: `function longestPalindrome(s) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      // Note: "bab" and "aba" are both valid for "babad"
+      { input: ['babad'], expected: 'bab' },
+      { input: ['cbbd'], expected: 'bb' },
+      { input: ['a'], expected: 'a' },
+    ],
   },
 
   // ===== Phase 4: 面试强化 =====
@@ -610,6 +781,14 @@ export const problems: Record<string, Problem> = {
       { input: 'nums = [1,1,1,2,2,3], k = 2', output: '[1,2]' },
     ],
     hint: '哈希计数 + 桶排序 或 小顶堆',
+    functionName: 'topKFrequent',
+    starterCode: `function topKFrequent(nums, k) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      // Note: order of result may vary
+      { input: [[1,1,1,2,2,3], 2], expected: [1,2] },
+      { input: [[1], 1], expected: [1] },
+      { input: [[4,1,-1,2,-1,2,3], 2], expected: [-1,2] },
+    ],
   },
   'kth-largest': {
     id: 'kth-largest',
@@ -624,6 +803,13 @@ export const problems: Record<string, Problem> = {
       { input: 'nums = [3,2,3,1,2,4,5,5,6], k = 4', output: '4' },
     ],
     hint: '快速选择算法 或 堆',
+    functionName: 'findKthLargest',
+    starterCode: `function findKthLargest(nums, k) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: [[3,2,1,5,6,4], 2], expected: 5 },
+      { input: [[3,2,3,1,2,4,5,5,6], 4], expected: 4 },
+      { input: [[1], 1], expected: 1 },
+    ],
   },
   'number-of-islands': {
     id: 'number-of-islands',
@@ -638,6 +824,13 @@ export const problems: Record<string, Problem> = {
       { input: 'grid = [\n  ["1","1","0","0","0"],\n  ["1","1","0","0","0"],\n  ["0","0","1","0","0"],\n  ["0","0","0","1","1"]\n]', output: '3' },
     ],
     hint: 'DFS/BFS 遍历，沉岛法',
+    functionName: 'numIslands',
+    starterCode: `function numIslands(grid) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: [[['1','1','1','1','0'],['1','1','0','1','0'],['1','1','0','0','0'],['0','0','0','0','0']]], expected: 1 },
+      { input: [[['1','1','0','0','0'],['1','1','0','0','0'],['0','0','1','0','0'],['0','0','0','1','1']]], expected: 3 },
+      { input: [[['0']]], expected: 0 },
+    ],
   },
   'course-schedule': {
     id: 'course-schedule',
@@ -652,5 +845,12 @@ export const problems: Record<string, Problem> = {
       { input: 'numCourses = 2, prerequisites = [[1,0],[0,1]]', output: 'false', explanation: '总共有 2 门课程。学习课程 1 之前，你需要先完成课程 0；并且学习课程 0 之前，你还应先完成课程 1。这是不可能的。' },
     ],
     hint: '拓扑排序 (BFS) 或 DFS 检测环',
+    functionName: 'canFinish',
+    starterCode: `function canFinish(numCourses, prerequisites) {\n  // 在这里写你的代码\n  \n}`,
+    testCases: [
+      { input: [2, [[1,0]]], expected: true },
+      { input: [2, [[1,0],[0,1]]], expected: false },
+      { input: [3, [[1,0],[2,1]]], expected: true },
+    ],
   },
 }

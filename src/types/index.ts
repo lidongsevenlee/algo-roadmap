@@ -22,6 +22,11 @@ export type PatternType =
   | 'heap'
   | 'graph'
 
+export interface TestCase {
+  input: unknown[]
+  expected: unknown
+}
+
 export interface Problem {
   id: string
   title: string
@@ -33,6 +38,9 @@ export interface Problem {
   examples?: { input: string; output: string; explanation?: string }[]
   template?: string
   hint?: string
+  starterCode?: string
+  testCases?: TestCase[]
+  functionName?: string
 }
 
 export interface KnowledgeCard {
