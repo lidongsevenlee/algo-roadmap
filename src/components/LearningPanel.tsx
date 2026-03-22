@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { RoadmapNode, LearningState, Problem } from '@/types'
+import { RoadmapNode, Problem } from '@/types'
 import { problems } from '@/data/problems'
 import { useUserStore } from '@/store/userStore'
 import { useUIStore } from '@/store/uiStore'
@@ -9,10 +9,15 @@ interface LearningPanelProps {
 }
 
 export default function LearningPanel({ node }: LearningPanelProps) {
-  const [learningState, setLearningState] = useState<LearningState>('idle')
-  const [showTemplate, setShowTemplate] = useState(false)
+  const [showTemplate, setShowTemplate] = useState(true)
+  const [isClosing, setIsClosing] = useState(false)
   const { completedProblems, completeProblem, uncompleteProblem, completeNode } = useUserStore()
   const { closeLearningPanel, showToastMessage, openProblemModal } = useUIStore()
+
+  const handleClose = () => {
+    setIsClosing(true)
+    setTimeout(() => closeLearningPanel(), 250)
+  }
 
   const nodeProblems: Problem[] = node.problems
     .map((id) => problems[id])
@@ -23,10 +28,6 @@ export default function LearningPanel({ node }: LearningPanelProps) {
   ).length
 
   const allCompleted = completedCount === nodeProblems.length && nodeProblems.length > 0
-
-  const handleStartLearning = () => {
-    setLearningState('learning')
-  }
 
   const handleToggleProblem = (problemId: string) => {
     if (completedProblems.includes(problemId)) {
@@ -40,9 +41,6 @@ export default function LearningPanel({ node }: LearningPanelProps) {
       if (newCompleted >= needed && needed > 0) {
         completeNode(node.id)
         showToastMessage(`恭喜完成「${node.titleCN}」节点！`)
-        setLearningState('completed')
-      } else {
-        setLearningState('practicing')
       }
     }
   }
@@ -63,12 +61,12 @@ export default function LearningPanel({ node }: LearningPanelProps) {
     <div className="fixed inset-0 z-50 flex">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-sm"
-        onClick={closeLearningPanel}
+        className={`absolute inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-sm transition-opacity duration-250 ${isClosing ? 'opacity-0' : 'animate-fade-in'}`}
+        onClick={handleClose}
       />
 
       {/* Panel */}
-      <div className="relative ml-auto w-full max-w-4xl bg-white dark:bg-slate-900 border-l border-gray-200 dark:border-slate-700 overflow-y-auto flex transition-colors">
+      <div className={`relative ml-auto w-full max-w-4xl bg-white dark:bg-slate-900 border-l border-gray-200 dark:border-slate-700 overflow-y-auto flex transition-all duration-250 ${isClosing ? 'translate-x-full' : 'animate-slide-in-right'}`}>
         {/* Left: Knowledge */}
         <div className="flex-1 p-6 border-r border-gray-200 dark:border-slate-700 overflow-y-auto">
           <div className="flex items-center justify-between mb-6">
@@ -81,7 +79,7 @@ export default function LearningPanel({ node }: LearningPanelProps) {
               </p>
             </div>
             <button
-              onClick={closeLearningPanel}
+              onClick={handleClose}
               className="text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-slate-200 text-xl p-2"
             >
               ✕
@@ -142,19 +140,11 @@ export default function LearningPanel({ node }: LearningPanelProps) {
             </div>
           )}
 
-          {/* Learning state */}
-          {learningState === 'idle' && (
-            <button
-              onClick={handleStartLearning}
-              className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium transition-colors"
-            >
-              开始学习
-            </button>
-          )}
-          {learningState === 'completed' && (
-            <div className="text-center py-4">
-              <div className="text-3xl mb-2">🎉</div>
-              <div className="text-green-500 font-semibold">节点已完成！</div>
+          {/* Completion status */}
+          {allCompleted && (
+            <div className="flex items-center gap-2 p-3 bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/20 rounded-lg">
+              <span className="text-lg">🎉</span>
+              <span className="text-sm text-green-600 dark:text-green-400 font-medium">此节点已完成！</span>
             </div>
           )}
         </div>
@@ -255,7 +245,6 @@ export default function LearningPanel({ node }: LearningPanelProps) {
               onClick={() => {
                 completeNode(node.id)
                 showToastMessage(`「${node.titleCN}」已完成！`)
-                setLearningState('completed')
               }}
               className="w-full mt-4 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg text-sm font-medium transition-colors"
             >

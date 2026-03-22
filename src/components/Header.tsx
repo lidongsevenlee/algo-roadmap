@@ -10,11 +10,18 @@ export default function Header() {
 
   return (
     <header className="h-14 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-gray-200 dark:border-slate-700/50 flex items-center justify-between px-6 z-10 relative transition-colors">
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2.5">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="8" className="fill-blue-500"/>
+          <path d="M8 22L16 10L24 22" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <circle cx="16" cy="10" r="2.5" fill="white"/>
+          <circle cx="8" cy="22" r="2.5" fill="white"/>
+          <circle cx="24" cy="22" r="2.5" fill="white"/>
+          <line x1="8" y1="22" x2="24" y2="22" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+        </svg>
         <div className="text-lg font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
           Algorithm Roadmap
         </div>
-        <span className="text-xs text-gray-400 dark:text-slate-500">算法路线图</span>
       </div>
 
       <div className="flex items-center gap-6">

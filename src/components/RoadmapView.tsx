@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react'
+import { useMemo, useCallback, useState } from 'react'
 import {
   ReactFlow,
   Background,
@@ -26,15 +26,16 @@ const statusEdgeColors: Record<string, string> = {
 }
 
 const statusEdgeColorsLight: Record<string, string> = {
-  completed: '#22c55e',
-  available: '#94a3b8',
-  locked: '#e2e8f0',
+  completed: '#16a34a',
+  available: '#64748b',
+  locked: '#cbd5e1',
 }
 
 export default function RoadmapView() {
   const { completedNodes, completedProblems } = useUserStore()
   const { openLearningPanel, theme } = useUIStore()
   const isDark = theme === 'dark'
+  const [isInteractive, setIsInteractive] = useState(true)
 
   const recommendedNode = useMemo(
     () => getRecommendedNode(roadmapNodes, completedNodes),
@@ -87,7 +88,7 @@ export default function RoadmapView() {
           id: `${e.from}-${e.to}`,
           source: e.from,
           target: e.to,
-          style: { stroke: color, strokeWidth: 2 },
+          style: { stroke: color, strokeWidth: isDark ? 2 : 2.5 },
           animated: fromCompleted && !toCompleted,
         }
       }),
@@ -119,14 +120,23 @@ export default function RoadmapView() {
         minZoom={0.3}
         maxZoom={2}
         proOptions={{ hideAttribution: true }}
+        nodesDraggable={isInteractive}
+        nodesConnectable={false}
+        elementsSelectable={isInteractive}
+        panOnDrag={isInteractive}
+        zoomOnScroll={isInteractive}
+        zoomOnPinch={isInteractive}
+        zoomOnDoubleClick={isInteractive}
       >
         <Background
           variant={BackgroundVariant.Dots}
           gap={20}
           size={1}
-          color={isDark ? '#1e293b' : '#e2e8f0'}
+          color={isDark ? '#1e293b' : '#d1d5db'}
         />
         <Controls
+          showInteractive={true}
+          onInteractiveChange={(interactive) => setIsInteractive(interactive)}
           className={isDark
             ? '!bg-slate-800 !border-slate-600 !rounded-lg [&>button]:!bg-slate-800 [&>button]:!border-slate-600 [&>button]:!text-slate-300 [&>button:hover]:!bg-slate-700'
             : '!bg-white !border-gray-300 !rounded-lg [&>button]:!bg-white [&>button]:!border-gray-300 [&>button]:!text-gray-600 [&>button:hover]:!bg-gray-100'

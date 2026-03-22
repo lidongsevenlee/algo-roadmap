@@ -44,6 +44,12 @@ export default function ProblemModal({ problem }: ProblemModalProps) {
   const hasEditor = !!problem.starterCode && !!problem.testCases
   const [showHint, setShowHint] = useState(false)
   const [showTemplate, setShowTemplate] = useState(false)
+  const [isClosing, setIsClosing] = useState(false)
+
+  const handleAnimatedClose = () => {
+    setIsClosing(true)
+    setTimeout(() => closeProblemModal(), 200)
+  }
 
   const handleToggle = () => {
     if (isCompleted) {
@@ -58,12 +64,12 @@ export default function ProblemModal({ problem }: ProblemModalProps) {
     <div className="fixed inset-0 z-[60] flex items-center justify-center">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm"
-        onClick={closeProblemModal}
+        className={`absolute inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm transition-opacity duration-200 ${isClosing ? 'opacity-0' : 'animate-fade-in'}`}
+        onClick={handleAnimatedClose}
       />
 
       {/* Modal - wider when editor is present */}
-      <div className={`relative w-full ${hasEditor ? 'max-w-6xl' : 'max-w-2xl'} h-[90vh] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-slate-700 overflow-hidden flex flex-col transition-colors`}>
+      <div className={`relative w-full ${hasEditor ? 'max-w-6xl' : 'max-w-2xl'} h-[90vh] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-slate-700 overflow-hidden flex flex-col transition-all duration-200 ${isClosing ? 'opacity-0 scale-95' : 'animate-modal-in'}`}>
         {/* Header */}
         <div className="px-5 py-3 border-b border-gray-200 dark:border-slate-700 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
@@ -100,7 +106,7 @@ export default function ProblemModal({ problem }: ProblemModalProps) {
               {isCompleted ? '✓ 已完成' : '标记完成'}
             </button>
             <button
-              onClick={closeProblemModal}
+              onClick={handleAnimatedClose}
               className="text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-slate-200 text-lg"
             >
               ✕
